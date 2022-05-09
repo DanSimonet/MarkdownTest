@@ -5,31 +5,50 @@ Dan Simonet
 
 ## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax
-for authoring HTML, PDF, and MS Word documents. For more details on
-using R Markdown see <http://rmarkdown.rstudio.com>.
+The `iris` data set has been used, abused, and recycled in the r
+ecosystem. It is frequently used to showcase a package, test out a new
+skill, or explain a statistical concept. `Iris` is popular because it is
+accessible, clean, small, and boring.
 
-When you click the **Knit** button a document will be generated that
-includes both content as well as the output of any embedded R code
-chunks within the document. You can embed an R code chunk like this:
+The R community has recently called for the retirement of `iris` for
+many reasons, such as being unrealistically well-structured or
+associated with Ronald Fisher’s eugenicist past. Before going all cancel
+culture on data there is a simpler reason to drop `iris`: most people
+are not botanists and know nothing about flowers. What’s a setosa? I
+have no idea. What’s the difference between the petal and sepal?
+Something about color and whorls. What is a wide versus deep flower -
+maybe sunflower?
+
+An important approach to teaching statistics is **context**. Use
+intuitive, relatable examples. I have always avoided `iris` because
+using k-means to cluster flowers or correlating sepal width and petal
+height never offer insights. Students just nod and say, “cool circles”.
+
+Enter **penguins**. Everyone loves little, sweet penguins and, more
+importantly, it is easy to visualize flippers, beaks, and body weights.
+Thanks to Allison Horst we have the fantastic `palmerpenguins` package
+which gives a mixture of data types, some missing values, and clear ways
+to differentiate species. A great package for experimentation.
+
+## Exploring `palmerpenguins`
+
+First lets load some packages and get a quick visual breakdown of how
+many species we are working with.
 
 ``` r
-summary(cars)
+pacman::p_load(
+  palmerpenguins,
+  tidyverse
+)
+
+penguins %>% 
+  count(species) %>%
+  ggplot() +
+  geom_col(aes(x = species, y = n, fill = species)) +
+  geom_label(aes(x = species, y = n, label = n)) +
+  scale_fill_manual(values = c("darkorange","purple","cyan4")) +
+  theme_minimal() +
+  labs(title = "Penguins Species and Count")
 ```
 
-    ##      speed           dist       
-    ##  Min.   : 4.0   Min.   :  2.00  
-    ##  1st Qu.:12.0   1st Qu.: 26.00  
-    ##  Median :15.0   Median : 36.00  
-    ##  Mean   :15.4   Mean   : 42.98  
-    ##  3rd Qu.:19.0   3rd Qu.: 56.00  
-    ##  Max.   :25.0   Max.   :120.00
-
-## Including Plots
-
-You can also embed plots, for example:
-
-![](Markdown_files/figure-gfm/pressure-1.png)<!-- -->
-
-Note that the `echo = FALSE` parameter was added to the code chunk to
-prevent printing of the R code that generated the plot.
+![](Markdown_files/figure-gfm/unnamed-chunk-1-1.png)<!-- -->
